@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<meta name="theme-color" content="#7a1731">
+<title>Concert Hall Operations</title>
+<style>
+:root{
+  --maroon:#7a1731; --maroon-dark:#551023; --maroon-soft:#f7e9ee;
+  --gold:#c7a45c; --gold-soft:#faf3df; --navy:#26364d;
+  --blue-soft:#edf3f7; --green-soft:#edf7f0; --red-soft:#fff2ef;
+  --cream:#fcf8f1; --border:#d8dadd; --text:#232323; --muted:#6b7280;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f5f6f8;color:var(--text)}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+.app{max-width:1280px;margin:0 auto;padding:16px}
+.hero{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 18px;border-radius:15px;background:linear-gradient(135deg,var(--maroon),var(--maroon-dark));color:#fff}
+.hero h1{font-size:21px;margin:0 0 4px}.hero p{margin:0;color:#f4dbe3;font-size:13px}
+.nav-actions{display:flex;gap:8px;flex-wrap:wrap}
+.nav-btn{min-height:44px;border:1px solid rgba(255,255,255,.3);border-radius:9px;background:rgba(255,255,255,.1);padding:8px 13px;font-weight:800;color:#fff;text-decoration:none;display:inline-flex;align-items:center}
+.nav-btn.active{background:#fff;color:var(--maroon-dark)}
+.card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:12px}
+.label{display:block;font-size:12px;font-weight:800;margin-bottom:5px;color:#444}
+.input,.textarea,.select{width:100%;min-height:44px;border:1px solid #c9ccd1;border-radius:8px;padding:9px 11px;font-size:16px;background:#fff;color:var(--text)}
+.textarea{min-height:110px;resize:vertical}
+.btn{min-height:44px;border:1px solid #c9ccd1;border-radius:9px;padding:8px 14px;font-weight:800;background:#fff;color:var(--text)}
+.btn.primary{background:var(--maroon);border-color:var(--maroon-dark);color:#fff}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 5px;margin:14px 0;scrollbar-width:thin}
+.tab{min-height:44px;border:1px solid #d8c8cd;border-radius:10px;background:#fff;padding:8px 16px;font-weight:850;color:var(--maroon-dark);white-space:nowrap}
+.tab[aria-selected="true"]{background:var(--maroon-soft);outline:2px solid var(--maroon)}
+.legend{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;background:var(--cream);border:1px solid #eadfcf;border-radius:11px;padding:10px 12px;font-size:13px}
+.legend-item{display:flex;align-items:center;gap:7px}
+.swatch{width:18px;height:18px;border-radius:4px;border:1px solid #aaa;background:#fff;flex:0 0 auto}
+.swatch.selected{background:var(--maroon);border-color:var(--maroon-dark)}
+.swatch.reported{position:relative}
+.swatch.reported:after{content:"•";position:absolute;right:-5px;top:-8px;font-size:19px;color:var(--gold)}
+.map-card{margin-top:12px;background:#fff;border:1px solid var(--border);border-radius:14px;padding:10px}
+.map-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+#plan{min-width:1180px;padding:20px 24px 30px}
+.title{text-align:center;font-size:21px;font-weight:900;color:var(--navy);margin-bottom:16px}
+.section-select{display:block;margin:0 auto 18px;min-height:44px;border:1px solid #cdbcc1;border-radius:9px;background:#fff7f9;padding:8px 16px;font-size:15px;font-weight:900;color:var(--maroon-dark)}
+.section-select.active,.row-select.active,.box-name.active{background:var(--maroon-soft);box-shadow:inset 0 0 0 2px var(--maroon)}
+.rows{display:flex;flex-direction:column;align-items:center;gap:8px}
+.row{display:flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap}
+.row-select{width:34px;min-width:34px;height:30px;padding:0;border:1px solid #c8cbd0;border-radius:6px;background:var(--blue-soft);font-size:11px;font-weight:900;color:var(--navy);margin:0 3px}
+.seat{width:26px;height:26px;min-width:26px;flex:0 0 26px;padding:0;border:1px solid #686868;border-radius:4px;background:#fff;color:#222;font-size:8px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;position:relative}
+.seat.selected{background:var(--maroon);border-color:var(--maroon-dark);color:#fff;box-shadow:0 0 0 2px #ead3db}
+.seat.reported::after{content:"•";position:absolute;right:-5px;top:-7px;font-size:17px;color:var(--gold);line-height:1}
+.stage{width:560px;height:80px;margin:28px auto;border:2px solid var(--navy);border-radius:0 0 48% 48%;display:flex;align-items:center;justify-content:center;font-weight:900;letter-spacing:.12em;background:#f2f5f8;color:var(--navy)}
+.boxes-layout{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;max-width:1080px;margin:0 auto}
+.box-side{display:flex;flex-direction:column;align-items:center;gap:18px}
+.box-card{display:inline-block;width:max-content;border:1px solid #d6cdd0;border-radius:8px;padding:9px;background:#fffafc}
+.box-name{display:block;width:100%;min-height:40px;text-align:center;font-size:12px;font-weight:900;margin-bottom:8px;border:1px solid #d1c0c5;border-radius:6px;background:#f8eef1;color:var(--maroon-dark)}
+.box-columns{display:flex;gap:7px;align-items:flex-end;justify-content:center}
+.box-col{display:flex;flex-direction:column-reverse;gap:6px}
+.statusbar{margin-top:12px;background:var(--blue-soft);border:1px solid #d8e0e8;border-radius:11px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.actions{display:none;margin-top:14px;background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px}
+.actions.show{display:block}
+.choice-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.choice{min-height:96px;border:1px solid var(--border);border-radius:11px;padding:12px;text-align:left}
+.choice.issue{background:var(--red-soft)}.choice.clean{background:var(--green-soft)}.choice.other{background:var(--gold-soft)}
+.choice.active{outline:2px solid var(--maroon)}
+.choice strong{display:block;margin-bottom:4px}.choice span{display:block;font-size:12px;color:var(--muted)}
+.note-form{display:none;margin-top:14px;padding:12px;border:1px solid #e3dce0;border-radius:10px;background:#faf8f9}
+.note-form.show{display:block}
+.message{margin-top:10px;font-size:13px;font-weight:750;color:var(--maroon-dark)}
+.message.error{color:#9b1c1c}.message.ok{color:#186a3b}
+.metric-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.metric{border:1px solid var(--border);background:#fff;border-radius:13px;padding:14px}
+.metric-label{font-size:12px;color:var(--muted);font-weight:700}.metric-value{font-size:28px;font-weight:900;color:var(--maroon-dark);margin-top:3px}
+.dashboard-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.dash-card{border:1px solid var(--border);background:#fff;border-radius:14px;padding:14px}
+.dash-title{font-weight:900;margin-bottom:12px;color:var(--navy)}
+.bar-list{display:flex;flex-direction:column;gap:10px}
+.bar-row{display:grid;grid-template-columns:92px 1fr 36px;gap:8px;align-items:center;font-size:12px}
+.bar-track{height:12px;background:#f0f1f3;border-radius:999px;overflow:hidden}.bar-fill{height:100%;background:var(--maroon);border-radius:999px}
+.donut-wrap{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.donut{width:130px;height:130px;border-radius:50%;position:relative}.donut:after{content:"";position:absolute;inset:27px;border-radius:50%;background:#fff}
+.staff-list,.activity-list{display:flex;flex-direction:column;gap:8px}
+.staff-row,.activity{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:9px 10px;border-radius:9px;background:#f5f6f8;font-size:13px}
+.activity-main{min-width:0}.activity-main strong{display:block}.activity-main span{display:block;color:var(--muted);font-size:12px;margin-top:2px;overflow-wrap:anywhere}
+.pill{padding:4px 8px;border-radius:999px;background:var(--maroon-soft);color:var(--maroon-dark);font-size:11px;font-weight:800;white-space:nowrap}
+.report-head{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.mobile-note{display:none;font-size:12px;color:var(--muted);margin-top:6px}
+@media (max-width:900px){
+  .app{padding:12px}
+  .hero{align-items:flex-start;flex-direction:column}
+  .nav-actions{width:100%}.nav-btn{flex:1;justify-content:center}
+  .metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .dashboard-grid{grid-template-columns:1fr}
+  .choice-grid{grid-template-columns:1fr}
+  .mobile-note{display:block}
+}
+@media (max-width:600px){
+  .app{padding:8px}
+  .hero{padding:14px;border-radius:12px}
+  .hero h1{font-size:18px}
+  .card{padding:10px}
+  .tabs{margin:10px 0}
+  .tab{padding:8px 12px}
+  .legend{font-size:12px}
+  .map-card{padding:6px}
+  #plan{min-width:1080px;padding:16px 16px 24px}
+  .seat{width:28px;height:28px;min-width:28px;flex-basis:28px;font-size:9px}
+  .row{gap:7px}.rows{gap:9px}
+  .row-select{width:38px;min-width:38px;height:34px;font-size:12px}
+  .box-col{gap:7px}.box-columns{gap:8px}
+  .statusbar{align-items:stretch}
+  .statusbar .btn{width:100%}
+  .metric-grid{grid-template-columns:1fr 1fr;gap:8px}
+  .metric{padding:12px}.metric-value{font-size:24px}
+  .report-head{align-items:flex-start;flex-direction:column}
+  .report-head .btn{width:100%}
+  .bar-row{grid-template-columns:72px 1fr 30px}
+  .staff-row,.activity{align-items:flex-start;flex-direction:column}
+  .pill{align-self:flex-start}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="hero">
+    <div>
+      <h1>Sydney Opera House — Concert Hall</h1>
+      <p>Daily cleaning and issue reporting</p>
+    </div>
+    <div class="nav-actions">
+      <a class="nav-btn active" href="index.html">Seat Map</a>
+      <a class="nav-btn" href="reports.html">Reports Dashboard</a>
+    </div>
+  </header>
+
+  <div class="card" style="margin-top:12px">
+    <label class="label" for="staffName">Staff name *</label>
+    <input id="staffName" class="input" type="text" autocomplete="name" placeholder="Enter your name">
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" data-view="stalls" aria-selected="true">Stalls</button>
+    <button class="tab" data-view="circle" aria-selected="false">Circle</button>
+    <button class="tab" data-view="upper" aria-selected="false">Upper Circle</button>
+    <button class="tab" data-view="boxes" aria-selected="false">Boxes</button>
+  </div>
+
+  <div class="legend">
+    <div class="legend-item"><span class="swatch selected"></span><span><strong>Maroon</strong> — selected</span></div>
+    <div class="legend-item"><span class="swatch reported"></span><span><strong>Gold dot</strong> — reported today</span></div>
+    <div>Tap a seat, row, box or entire section.</div>
+  </div>
+  <div class="mobile-note">Tip: swipe left/right on the seat map to move across the full seating layout.</div>
+
+  <div class="map-card"><div class="map-scroll"><div id="plan"></div></div></div>
+
+  <div class="statusbar">
+    <div id="status">Nothing selected.</div>
+    <button id="clearSelection" class="btn" type="button">Clear selection</button>
+  </div>
+
+  <section id="actions" class="actions">
+    <div style="margin-bottom:12px">
+      <div style="font-size:11px;color:var(--muted);text-transform:uppercase">Current selection</div>
+      <div id="selectionSummary" style="font-size:18px;font-weight:900">—</div>
+    </div>
+
+    <div class="choice-grid">
+      <button type="button" class="choice issue" data-type="issue"><strong>Report an issue</strong><span>Damage, spill, maintenance or obstruction</span></button>
+      <button type="button" class="choice clean" data-type="cleaning"><strong>Cleaning work completed</strong><span>Record cleaning work carried out</span></button>
+      <button type="button" class="choice other" data-type="other"><strong>Other / Blank</strong><span>Reserved for future use</span></button>
+    </div>
+
+    <form id="noteForm" class="note-form">
+      <label class="label" id="detailsLabel" for="details">Details</label>
+      <textarea id="details" class="textarea" placeholder="Enter details..."></textarea>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+        <button id="submitReport" class="btn primary" type="submit">Send report</button>
+        <button id="cancelReport" class="btn" type="button">Cancel</button>
+      </div>
+    </form>
+
+    <div id="message" class="message" aria-live="polite"></div>
+  </section>
+</div>
+
+<script>
+(() => {
+  const APPS_SCRIPT_URL = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+  const plan=document.getElementById("plan"),status=document.getElementById("status"),actions=document.getElementById("actions"),
+        summary=document.getElementById("selectionSummary"),staff=document.getElementById("staffName"),
+        noteForm=document.getElementById("noteForm"),details=document.getElementById("details"),
+        detailsLabel=document.getElementById("detailsLabel"),message=document.getElementById("message"),
+        submit=document.getElementById("submitReport");
+
+  let view="stalls",actionType=null;
+  const selected=new Set(),reported=new Set();
+
+  const STALLS=[['A',13,37],['B',12,38],['C',11,39],['D',11,39],['E',11,38],['F',10,36],['G',9,41],['H',7,43],['J',7,43],['K',7,43],['L',7,43],['M',7,43],['N',7,43],['P',6,43],['Q',7,43],['R',7,42],['S',8,41],['T',9,41],['U',9,41],['V',9,41],['W',8,41],['X',6,44]];
+  const CIRCLE=[['A',7,43],['B',6,43],['C',6,43],['D',6,44],['E',5,44],['F',5,45],['G',5,45],['H',4,45],['J',4,46],['K',4,46]];
+  const UPPER=[['L',11,38],['M',11,38],['N',11,39],['P',8,42],['Q',4,45],['R',3,46],['S',1,48],['T',1,49],['U',2,48],['V',2,47],['W',2,47],['X',9,46],['Y',8,42]];
+  const BOX={A:[[49,42],[41,34],[33,27],[26,20],[19,13],[12,7],[6,1]],B:[[68,59],[58,49],[48,40],[39,31],[30,23],[22,15],[14,8],[7,1]],C:[[50,41],[40,32],[31,23],[22,15],[14,8],[7,1]],U:[[49,42],[41,34],[33,27],[26,20],[19,13],[12,7],[6,1]],V:[[68,59],[58,49],[48,40],[39,31],[30,23],[22,15],[14,8],[7,1]],W:[[50,41],[40,32],[31,23],[22,15],[14,8],[7,1]],D:[[47,39],[38,31],[30,23],[22,15],[14,8],[7,1]],E:[[79,65],[64,51],[50,37],[36,24],[23,12],[11,1]],X:[[7,1],[14,8],[22,15],[30,23],[38,31],[47,39]],Y:[[11,1],[23,12],[36,24],[50,37],[64,51],[79,65]],F:[[54,39],[38,24],[23,12],[11,1]],Z:[[11,1],[23,12],[38,24],[54,39]]};
+
+  const sid=(s,r,n)=>`${s}|${r}|${n}`;
+  function seat(s,r,n){const b=document.createElement("button");b.type="button";b.className="seat";b.textContent=n;b.dataset.id=sid(s,r,n);if(selected.has(b.dataset.id))b.classList.add("selected");if(reported.has(b.dataset.id))b.classList.add("reported");return b}
+  function ids(s,r,a,b){const x=[];for(let n=a;n<=b;n++)x.push(sid(s,r,n));return x}
+  const secIds=(s,d)=>d.flatMap(([r,a,b])=>ids(s,r,a,b)),all=a=>a.length&&a.every(i=>selected.has(i));
+  function toggle(a){const rem=all(a);a.forEach(i=>rem?selected.delete(i):selected.add(i));render()}
+  function rows(s,d){const h=document.createElement("div");h.className="rows";d.forEach(([r,a,b])=>{const line=document.createElement("div");line.className="row";const group=ids(s,r,a,b);const mk=()=>{const x=document.createElement("button");x.type="button";x.className="row-select";x.textContent=r;x.dataset.section=s;x.dataset.row=r;x.dataset.a=a;x.dataset.b=b;if(all(group))x.classList.add("active");return x};line.append(mk());for(let n=a;n<=b;n++)line.append(seat(s,r,n));line.append(mk());h.append(line)});return h}
+  function boxIds(n,t){const x=[];BOX[n].forEach(([a,b])=>{if(a>=b){for(let i=a;i>=b;i--)x.push(sid(t,n,i))}else{for(let i=a;i<=b;i++)x.push(sid(t,n,i))}});return x}
+  function makeBox(n,t){const c=document.createElement("div");c.className="box-card";const g=boxIds(n,t);const bt=document.createElement("button");bt.type="button";bt.className="box-name";bt.textContent="BOX "+n;bt.dataset.box=n;bt.dataset.type=t;if(all(g))bt.classList.add("active");c.append(bt);const cols=document.createElement("div");cols.className="box-columns";BOX[n].forEach(([a,b])=>{const col=document.createElement("div");col.className="box-col";if(a>=b){for(let i=a;i>=b;i--)col.append(seat(t,n,i))}else{for(let i=a;i<=b;i++)col.append(seat(t,n,i))}cols.append(col)});c.append(cols);return c}
+  const allBoxes=()=>[['A','Circle Box'],['B','Circle Box'],['C','Circle Box'],['U','Circle Box'],['V','Circle Box'],['W','Circle Box'],['D','Platform Box'],['E','Platform Box'],['X','Platform Box'],['Y','Platform Box'],['F','Choir Box'],['Z','Choir Box']].flatMap(([n,t])=>boxIds(n,t));
+  function title(t){const d=document.createElement("div");d.className="title";d.textContent=t;return d}
+  function stage(){const d=document.createElement("div");d.className="stage";d.textContent="STAGE";return d}
+  function secBtn(k,label,a){const b=document.createElement("button");b.type="button";b.className="section-select";b.dataset.k=k;b.textContent=(all(a)?"Deselect entire ":"Select entire ")+label;if(all(a))b.classList.add("active");return b}
+  function render(){plan.innerHTML="";if(view==="stalls"){const a=secIds("Stalls",STALLS);plan.append(title("STALLS"),secBtn("stalls","Stalls",a),rows("Stalls",STALLS),stage())}if(view==="circle"){const a=secIds("Circle",CIRCLE);plan.append(title("CIRCLE"),secBtn("circle","Circle",a),rows("Circle",CIRCLE),stage())}if(view==="upper"){const a=secIds("Upper Circle",UPPER);plan.append(title("UPPER CIRCLE"),secBtn("upper","Upper Circle",a),rows("Upper Circle",UPPER),stage())}if(view==="boxes"){plan.append(title("BOXES"),secBtn("boxes","Boxes",allBoxes()));const w=document.createElement("div");w.className="boxes-layout";const l=document.createElement("div"),r=document.createElement("div");l.className=r.className="box-side";l.append(makeBox("A","Circle Box"),makeBox("B","Circle Box"),makeBox("C","Circle Box"));r.append(makeBox("U","Circle Box"),makeBox("V","Circle Box"),makeBox("W","Circle Box"),makeBox("D","Platform Box"),makeBox("E","Platform Box"),makeBox("X","Platform Box"),makeBox("Y","Platform Box"),makeBox("F","Choir Box"),makeBox("Z","Choir Box"));w.append(l,r);plan.append(w)}const n=selected.size;status.textContent=n?`${n} seat${n===1?"":"s"} selected.`:"Nothing selected.";summary.textContent=n?`${n} seat${n===1?"":"s"} selected`:"—";actions.classList.toggle("show",!!n);if(!n)noteForm.classList.remove("show")}
+  plan.addEventListener("click",e=>{const s=e.target.closest(".seat");if(s){selected.has(s.dataset.id)?selected.delete(s.dataset.id):selected.add(s.dataset.id);render();return}const r=e.target.closest(".row-select");if(r){toggle(ids(r.dataset.section,r.dataset.row,+r.dataset.a,+r.dataset.b));return}const b=e.target.closest(".box-name");if(b){toggle(boxIds(b.dataset.box,b.dataset.type));return}const sec=e.target.closest(".section-select");if(sec){if(sec.dataset.k==="stalls")toggle(secIds("Stalls",STALLS));if(sec.dataset.k==="circle")toggle(secIds("Circle",CIRCLE));if(sec.dataset.k==="upper")toggle(secIds("Upper Circle",UPPER));if(sec.dataset.k==="boxes")toggle(allBoxes())}});
+  document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>{view=t.dataset.view;document.querySelectorAll(".tab").forEach(x=>x.setAttribute("aria-selected",x===t?"true":"false"));render()}));
+  document.getElementById("clearSelection").onclick=()=>{selected.clear();render()};
+  document.querySelectorAll(".choice").forEach(c=>c.onclick=()=>{actionType=c.dataset.type;document.querySelectorAll(".choice").forEach(x=>x.classList.toggle("active",x===c));noteForm.classList.add("show");if(actionType==="issue"){detailsLabel.textContent="Describe the issue";details.placeholder="Example: damaged seat, spill, loose armrest..."}if(actionType==="cleaning"){detailsLabel.textContent="Cleaning work completed";details.placeholder="Example: seats wiped, vacuumed underneath, spill removed..."}if(actionType==="other"){detailsLabel.textContent="Other / Blank";details.placeholder="Enter a note or leave for future use."}});
+  document.getElementById("cancelReport").onclick=()=>noteForm.classList.remove("show");
+  noteForm.addEventListener("submit",async e=>{e.preventDefault();const name=staff.value.trim();if(!name){message.textContent="Please enter staff name.";message.className="message error";staff.focus();return}if(!actionType||!selected.size)return;if(!APPS_SCRIPT_URL.includes("/exec")){message.textContent="Apps Script URL is not configured yet.";message.className="message error";return}const seats=[...selected].map(id=>{const [section,row,seat]=id.split("|");return{id,section,row,seat,label:`${section} ${row}${seat}`}});submit.disabled=true;submit.textContent="Sending…";try{const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({staffName:name,actionType,details:details.value.trim(),timestamp:new Date().toISOString(),seats})});const data=await res.json();if(!data.ok)throw new Error(data.error||"Save failed");seats.forEach(s=>reported.add(s.id));const c=selected.size;selected.clear();details.value="";noteForm.classList.remove("show");render();message.textContent=`Report saved for ${c} seat${c===1?"":"s"}. Seats released for other staff.`;message.className="message ok"}catch(err){message.textContent="Could not save report: "+err.message;message.className="message error"}finally{submit.disabled=false;submit.textContent="Send report"}});
+  render();
+})();
+</script>
+</body>
+</html>
