@@ -30,7 +30,7 @@ button{cursor:pointer}
 .btn{min-height:44px;border:1px solid #c9ccd1;border-radius:9px;padding:8px 14px;font-weight:800;background:#fff;color:var(--text)}
 .btn.primary{background:var(--maroon);border-color:var(--maroon-dark);color:#fff}
 .btn:disabled{opacity:.6;cursor:not-allowed}
-.tabs{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 5px;margin:14px 0;scrollbar-width:thin}
+.tabs{display:none}
 .tab{min-height:44px;border:1px solid #d8c8cd;border-radius:10px;background:#fff;padding:8px 16px;font-weight:850;color:var(--maroon-dark);white-space:nowrap}
 .tab[aria-selected="true"]{background:var(--maroon-soft);outline:2px solid var(--maroon)}
 .legend{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;background:var(--cream);border:1px solid #eadfcf;border-radius:11px;padding:10px 12px;font-size:13px}
@@ -41,23 +41,64 @@ button{cursor:pointer}
 .swatch.reported:after{content:"•";position:absolute;right:-5px;top:-8px;font-size:19px;color:var(--gold)}
 .map-card{margin-top:12px;background:#fff;border:1px solid var(--border);border-radius:14px;padding:10px}
 .map-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
-#plan{min-width:1180px;padding:20px 24px 30px}
-.title{text-align:center;font-size:21px;font-weight:900;color:var(--navy);margin-bottom:16px}
-.section-select{display:block;margin:0 auto 18px;min-height:44px;border:1px solid #cdbcc1;border-radius:9px;background:#fff7f9;padding:8px 16px;font-size:15px;font-weight:900;color:var(--maroon-dark)}
-.section-select.active,.row-select.active,.box-name.active{background:var(--maroon-soft);box-shadow:inset 0 0 0 2px var(--maroon)}
-.rows{display:flex;flex-direction:column;align-items:center;gap:8px}
-.row{display:flex;align-items:center;justify-content:center;gap:6px;white-space:nowrap}
-.row-select{width:34px;min-width:34px;height:30px;padding:0;border:1px solid #c8cbd0;border-radius:6px;background:var(--blue-soft);font-size:11px;font-weight:900;color:var(--navy);margin:0 3px}
-.seat{width:26px;height:26px;min-width:26px;flex:0 0 26px;padding:0;border:1px solid #686868;border-radius:4px;background:#fff;color:#222;font-size:8px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;position:relative}
+#plan{min-width:1700px;padding:22px 20px 54px}
+.hall-plan{display:flex;flex-direction:column;align-items:center;gap:12px}
+.plan-section{position:relative;text-align:center}
+.plan-section .title{margin-bottom:6px;font-size:14px;letter-spacing:.12em}
+.title{display:block;width:max-content;min-height:34px;margin:0 auto 10px;padding:5px 10px;border:1px solid transparent;border-radius:8px;background:#fff;text-align:center;font-size:20px;font-weight:900;color:var(--navy);cursor:pointer}
+.title:hover,.title:focus-visible{border-color:#cdbcc1;background:#fff7f9;outline:none}
+.pdf-section{padding:10px 24px 14px}
+.pdf-section .rows{gap:5px}
+.pdf-section .row{gap:2px;padding-left:31px;border-bottom:1px solid #aeb4ba}
+.pdf-section .row-select:first-child{display:none}
+.pdf-section .row-select{border:0;background:#fff;font-size:15px;margin-left:5px;position:relative;z-index:2}
+.plan-upper{width:1320px;border:2px solid var(--navy);border-bottom:0;border-radius:50% 50% 0 0 / 72px 72px 0 0;padding-inline:50px}
+.upper-segment{display:inline-flex;gap:2px}
+.row-segment-gap{display:inline-block;width:17px;min-width:17px}
+.audience-grid{position:relative;display:grid;grid-template-columns:260px 1100px 260px;gap:16px;align-items:center;width:1652px}
+.audience-centre{display:flex;flex-direction:column;align-items:center;gap:10px}
+.plan-circle{width:1080px;border-left:2px solid var(--navy);border-right:2px solid var(--navy)}
+.plan-stalls{width:1080px;border-left:2px solid var(--navy);border-right:2px solid var(--navy);border-bottom:2px solid var(--navy);border-radius:0 0 50% 50% / 0 0 44px 44px;padding-bottom:72px}
+.circle-box-stack{display:flex;flex-direction:column;justify-content:space-around;align-items:center;gap:16px;height:100%}
+.circle-box-stack .box-card{zoom:.92;margin:0;border-color:var(--navy);background:#fff}
+.circle-box-stack.left .box-card{transform:rotate(-5deg)}
+.circle-box-stack.right .box-card{transform:rotate(5deg)}
+.platform-area{position:relative;display:grid;grid-template-columns:360px 650px 360px;gap:24px;align-items:center;justify-content:center;width:1470px;padding:12px 24px 18px}
+.platform-area:before{content:"";position:absolute;inset:0 230px;border-top:2px solid var(--navy);border-radius:48% 48% 0 0;pointer-events:none}
+.platform-pair{display:flex;align-items:center;justify-content:center;gap:16px;position:relative;z-index:2}
+.platform-pair.left{grid-column:1}.platform-pair.right{grid-column:3}
+.platform-box{display:flex;justify-content:center}
+.platform-box .box-card{zoom:.92;margin:0;border-color:var(--navy);background:#fff}
+.platform-area .plan-stage{grid-column:2;position:relative;z-index:2;width:100%;height:100%;min-height:430px;align-self:stretch}
+.plan-stage{width:630px;height:138px;border:2px solid var(--navy);border-radius:32px 32px 8px 8px;display:flex;align-items:center;justify-content:center;font-weight:900;letter-spacing:.14em;background:#f2f5f8;color:var(--navy)}
+.choir-diagram{position:relative;width:1400px;padding:18px 24px 48px;border-bottom:3px solid var(--navy)}
+.choir-diagram:before,.choir-diagram:after{content:"";position:absolute;bottom:-3px;width:145px;height:565px;border:3px solid var(--navy);border-top:0;background:#fff;z-index:0}
+.choir-diagram:before{left:34px;transform:skewY(-10deg);border-right:0}.choir-diagram:after{right:34px;transform:skewY(10deg);border-left:0}
+.choir-heading{position:relative;z-index:2;margin-bottom:8px}
+.choir-layout{position:relative;z-index:2;display:grid;grid-template-columns:260px 1fr 260px;gap:18px;align-items:start}
+.choir-box{padding-top:2px}.choir-box .box-card{zoom:.92;margin:0;border-color:var(--navy);background:#fff}
+.choir-box.left{transform:rotate(-7deg)}.choir-box.right{transform:rotate(7deg)}
+.choir-centre{padding-top:2px}.choir-centre .rows{gap:7px}
+.choir-centre .row{position:relative;gap:2px;border-bottom:1px solid #9da4aa;padding:0 38px 5px}
+.choir-centre .seat{width:20px;height:22px;min-width:20px;flex-basis:20px;border-radius:1px;font-size:8px}
+.choir-centre .row-select{position:absolute;right:3px;width:29px;min-width:29px;height:25px;border:0;background:transparent;font-size:16px}
+.choir-centre .row-select:first-child{display:none}
+.choir-centre .row:nth-child(1){margin-inline:80px}.choir-centre .row:nth-child(2){margin-inline:63px}
+.choir-centre .row:nth-child(3){margin-inline:70px}.choir-centre .row:nth-child(4){margin-inline:62px}
+.choir-centre .row:nth-child(5){margin-inline:62px}.choir-centre .row:nth-child(6){margin-inline:84px}
+.choir-centre .row:nth-child(7){margin-inline:96px}.choir-centre .row:nth-child(8){margin-inline:78px}
+.choir-centre .row:nth-child(9){margin-inline:0}.choir-centre .row:nth-child(10){margin-inline:-48px}.choir-centre .row:nth-child(11){margin-inline:-84px}
+.title.active,.row-select.active,.box-name.active{background:var(--maroon-soft);box-shadow:inset 0 0 0 2px var(--maroon)}
+.rows{display:flex;flex-direction:column;align-items:center;gap:6px}
+.row{display:flex;align-items:center;justify-content:center;gap:3px;white-space:nowrap}
+.row-select{width:31px;min-width:31px;height:27px;padding:0;border:1px solid #c8cbd0;border-radius:5px;background:var(--blue-soft);font-size:11px;font-weight:900;color:var(--navy);margin:0 2px}
+.seat{width:20px;height:22px;min-width:20px;flex:0 0 20px;padding:0;border:1px solid #686868;border-radius:2px;background:#fff;color:#222;font-size:8px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;position:relative}
 .seat.selected{background:var(--maroon);border-color:var(--maroon-dark);color:#fff;box-shadow:0 0 0 2px #ead3db}
 .seat.reported::after{content:"•";position:absolute;right:-5px;top:-7px;font-size:17px;color:var(--gold);line-height:1}
-.stage{width:560px;height:80px;margin:28px auto;border:2px solid var(--navy);border-radius:0 0 48% 48%;display:flex;align-items:center;justify-content:center;font-weight:900;letter-spacing:.12em;background:#f2f5f8;color:var(--navy)}
-.boxes-layout{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;max-width:1080px;margin:0 auto}
-.box-side{display:flex;flex-direction:column;align-items:center;gap:18px}
 .box-card{display:inline-block;width:max-content;border:1px solid #d6cdd0;border-radius:8px;padding:9px;background:#fffafc}
-.box-name{display:block;width:100%;min-height:40px;text-align:center;font-size:12px;font-weight:900;margin-bottom:8px;border:1px solid #d1c0c5;border-radius:6px;background:#f8eef1;color:var(--maroon-dark)}
-.box-columns{display:flex;gap:7px;align-items:flex-end;justify-content:center}
-.box-col{display:flex;flex-direction:column-reverse;gap:6px}
+.box-name{display:block;width:100%;min-height:38px;text-align:center;font-size:13px;font-weight:900;margin-bottom:7px;border:1px solid #d1c0c5;border-radius:6px;background:#f8eef1;color:var(--maroon-dark)}
+.box-columns{display:flex;gap:5px;align-items:flex-start;justify-content:center}
+.box-col{display:flex;flex-direction:column;gap:4px}
 .statusbar{margin-top:12px;background:var(--blue-soft);border:1px solid #d8e0e8;border-radius:11px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .actions{display:none;margin-top:14px;background:#fff;border:1px solid var(--border);border-radius:14px;padding:16px}
 .actions.show{display:block}
@@ -94,6 +135,7 @@ button{cursor:pointer}
   .metric-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .dashboard-grid{grid-template-columns:1fr}
   .choice-grid{grid-template-columns:1fr}
+  .choir-diagram{width:1400px}
   .mobile-note{display:block}
 }
 @media (max-width:600px){
@@ -105,11 +147,11 @@ button{cursor:pointer}
   .tab{padding:8px 12px}
   .legend{font-size:12px}
   .map-card{padding:6px}
-  #plan{min-width:1080px;padding:16px 16px 24px}
-  .seat{width:28px;height:28px;min-width:28px;flex-basis:28px;font-size:9px}
-  .row{gap:7px}.rows{gap:9px}
-  .row-select{width:38px;min-width:38px;height:34px;font-size:12px}
-  .box-col{gap:7px}.box-columns{gap:8px}
+  #plan{min-width:1700px;padding:16px 16px 40px}
+  .seat{width:20px;height:22px;min-width:20px;flex-basis:20px;font-size:8px}
+  .row{gap:3px}.rows{gap:6px}
+  .row-select{width:31px;min-width:31px;height:27px;font-size:11px}
+  .box-col{gap:4px}.box-columns{gap:5px}
   .statusbar{align-items:stretch}
   .statusbar .btn{width:100%}
   .metric-grid{grid-template-columns:1fr 1fr;gap:8px}
@@ -141,16 +183,13 @@ button{cursor:pointer}
   </div>
 
   <div class="tabs" role="tablist">
-    <button class="tab" data-view="stalls" aria-selected="true">Stalls</button>
-    <button class="tab" data-view="circle" aria-selected="false">Circle</button>
-    <button class="tab" data-view="upper" aria-selected="false">Upper Circle</button>
-    <button class="tab" data-view="boxes" aria-selected="false">Boxes</button>
+    <button class="tab" data-view="all" aria-selected="true">Complete Hall</button>
   </div>
 
   <div class="legend">
     <div class="legend-item"><span class="swatch selected"></span><span><strong>Maroon</strong> — selected</span></div>
     <div class="legend-item"><span class="swatch reported"></span><span><strong>Gold dot</strong> — reported today</span></div>
-    <div>Tap a seat, row, box or entire section.</div>
+    <div>Complete Concert Hall plan - tap a seat, row, box or entire section.</div>
   </div>
   <div class="mobile-note">Tip: swipe left/right on the seat map to move across the full seating layout.</div>
 
@@ -195,33 +234,67 @@ button{cursor:pointer}
         detailsLabel=document.getElementById("detailsLabel"),message=document.getElementById("message"),
         submit=document.getElementById("submitReport");
 
-  let view="stalls",actionType=null;
+  let view="all",actionType=null;
   const selected=new Set(),reported=new Set();
 
-  const STALLS=[['A',13,37],['B',12,38],['C',11,39],['D',11,39],['E',11,38],['F',10,36],['G',9,41],['H',7,43],['J',7,43],['K',7,43],['L',7,43],['M',7,43],['N',7,43],['P',6,43],['Q',7,43],['R',7,42],['S',8,41],['T',9,41],['U',9,41],['V',9,41],['W',8,41],['X',6,44]];
+  const STALLS=[['A',13,37],['B',11,37],['C',11,39],['D',9,40],['E',8,42],['F',7,42],['G',7,43],['H',6,43],['J',6,43],['K',6,43],['L',6,43],['M',6,43],['N',6,43],['P',6,43],['Q',7,43],['R',7,42],['S',8,42],['T',8,41],['U',9,41],['V',9,41],['W',8,41],['X',6,44]];
   const CIRCLE=[['A',7,43],['B',6,43],['C',6,43],['D',6,44],['E',5,44],['F',5,45],['G',5,45],['H',4,45],['J',4,46],['K',4,46]];
-  const UPPER=[['L',11,38],['M',11,38],['N',11,39],['P',8,42],['Q',4,45],['R',3,46],['S',1,48],['T',1,49],['U',2,48],['V',2,47],['W',2,47],['X',9,46],['Y',8,42]];
+  const UPPER=[['L',11,38],['M',11,38],['N',11,39],['P',8,42],['Q',4,45],['R',5,46],['S',1,48],['T',1,49],['U',2,48],['V',2,48],['W',2,48],['X',2,47],['Y',8,42]];
+  const UPPER_SEGMENTS={L:[[11,38]],M:[[11,38]],N:[[11,39]],P:[[8,9],[11,39],[40,42]],Q:[[4,9],[11,39],[40,45]],R:[[5,9],[10,39],[40,46]],S:[[1,9],[10,39],[40,48]],T:[[1,9],[10,39],[40,49]],U:[[2,9],[10,40],[41,48]],V:[[2,9],[10,40],[41,48]],W:[[2,9],[10,40],[41,48]],X:[[2,8],[9,40],[41,47]],Y:[[8,42]]};
+  const CHOIR=[['A',12,37],['B',11,38],['C',12,37],['D',12,37],['E',12,37],['F',13,36],['G',14,35],['H',14,36],['J',11,39],['K',10,40],['L',8,41]];
   const BOX={A:[[49,42],[41,34],[33,27],[26,20],[19,13],[12,7],[6,1]],B:[[68,59],[58,49],[48,40],[39,31],[30,23],[22,15],[14,8],[7,1]],C:[[50,41],[40,32],[31,23],[22,15],[14,8],[7,1]],U:[[49,42],[41,34],[33,27],[26,20],[19,13],[12,7],[6,1]],V:[[68,59],[58,49],[48,40],[39,31],[30,23],[22,15],[14,8],[7,1]],W:[[50,41],[40,32],[31,23],[22,15],[14,8],[7,1]],D:[[47,39],[38,31],[30,23],[22,15],[14,8],[7,1]],E:[[79,65],[64,51],[50,37],[36,24],[23,12],[11,1]],X:[[7,1],[14,8],[22,15],[30,23],[38,31],[47,39]],Y:[[11,1],[23,12],[36,24],[50,37],[64,51],[79,65]],F:[[54,39],[38,24],[23,12],[11,1]],Z:[[11,1],[23,12],[38,24],[54,39]]};
 
   const sid=(s,r,n)=>`${s}|${r}|${n}`;
-  function seat(s,r,n){const b=document.createElement("button");b.type="button";b.className="seat";b.textContent=n;b.dataset.id=sid(s,r,n);if(selected.has(b.dataset.id))b.classList.add("selected");if(reported.has(b.dataset.id))b.classList.add("reported");return b}
+  function seat(s,r,n){const b=document.createElement("button");b.type="button";b.className="seat";b.textContent=n;b.dataset.id=sid(s,r,n);b.setAttribute("aria-label",`${s}, Row ${r}, Seat ${n}`);b.title=`${s} - Row ${r} - Seat ${n}`;if(selected.has(b.dataset.id))b.classList.add("selected");if(reported.has(b.dataset.id))b.classList.add("reported");return b}
   function ids(s,r,a,b){const x=[];for(let n=a;n<=b;n++)x.push(sid(s,r,n));return x}
-  const secIds=(s,d)=>d.flatMap(([r,a,b])=>ids(s,r,a,b)),all=a=>a.length&&a.every(i=>selected.has(i));
+  const rowSegments=(s,r,a,b)=>s==="UPPER CIRCLE"&&UPPER_SEGMENTS[r]?UPPER_SEGMENTS[r]:[[a,b]];
+  const rowIds=(s,r,a,b)=>rowSegments(s,r,a,b).flatMap(([x,y])=>ids(s,r,x,y));
+  const secIds=(s,d)=>d.flatMap(([r,a,b])=>rowIds(s,r,a,b)),all=a=>a.length&&a.every(i=>selected.has(i));
   function toggle(a){const rem=all(a);a.forEach(i=>rem?selected.delete(i):selected.add(i));render()}
-  function rows(s,d){const h=document.createElement("div");h.className="rows";d.forEach(([r,a,b])=>{const line=document.createElement("div");line.className="row";const group=ids(s,r,a,b);const mk=()=>{const x=document.createElement("button");x.type="button";x.className="row-select";x.textContent=r;x.dataset.section=s;x.dataset.row=r;x.dataset.a=a;x.dataset.b=b;if(all(group))x.classList.add("active");return x};line.append(mk());for(let n=a;n<=b;n++)line.append(seat(s,r,n));line.append(mk());h.append(line)});return h}
+  function rows(s,d){const h=document.createElement("div");h.className="rows";d.forEach(([r,a,b])=>{const line=document.createElement("div");line.className="row";const segs=rowSegments(s,r,a,b),group=rowIds(s,r,a,b);const mk=()=>{const x=document.createElement("button");x.type="button";x.className="row-select";x.textContent=r;x.title=`Select ${s} Row ${r}`;x.dataset.ids=group.join(",");if(all(group))x.classList.add("active");return x};line.append(mk());segs.forEach(([from,to],index)=>{const span=document.createElement("span");span.className="upper-segment";for(let n=from;n<=to;n++)span.append(seat(s,r,n));line.append(span);if(index<segs.length-1){const gap=document.createElement("span");gap.className="row-segment-gap";line.append(gap)}});line.append(mk());h.append(line)});return h}
   function boxIds(n,t){const x=[];BOX[n].forEach(([a,b])=>{if(a>=b){for(let i=a;i>=b;i--)x.push(sid(t,n,i))}else{for(let i=a;i<=b;i++)x.push(sid(t,n,i))}});return x}
   function makeBox(n,t){const c=document.createElement("div");c.className="box-card";const g=boxIds(n,t);const bt=document.createElement("button");bt.type="button";bt.className="box-name";bt.textContent="BOX "+n;bt.dataset.box=n;bt.dataset.type=t;if(all(g))bt.classList.add("active");c.append(bt);const cols=document.createElement("div");cols.className="box-columns";BOX[n].forEach(([a,b])=>{const col=document.createElement("div");col.className="box-col";if(a>=b){for(let i=a;i>=b;i--)col.append(seat(t,n,i))}else{for(let i=a;i<=b;i++)col.append(seat(t,n,i))}cols.append(col)});c.append(cols);return c}
-  const allBoxes=()=>[['A','Circle Box'],['B','Circle Box'],['C','Circle Box'],['U','Circle Box'],['V','Circle Box'],['W','Circle Box'],['D','Platform Box'],['E','Platform Box'],['X','Platform Box'],['Y','Platform Box'],['F','Choir Box'],['Z','Choir Box']].flatMap(([n,t])=>boxIds(n,t));
-  function title(t){const d=document.createElement("div");d.className="title";d.textContent=t;return d}
+  function title(t,k,a){const d=document.createElement("button");d.type="button";d.className="title section-name";d.dataset.k=k;d.textContent=t;d.setAttribute("aria-label",`${t} section`);d.setAttribute("aria-pressed",all(a)?"true":"false");if(all(a))d.classList.add("active");return d}
   function stage(){const d=document.createElement("div");d.className="stage";d.textContent="STAGE";return d}
-  function secBtn(k,label,a){const b=document.createElement("button");b.type="button";b.className="section-select";b.dataset.k=k;b.textContent=(all(a)?"Deselect entire ":"Select entire ")+label;if(all(a))b.classList.add("active");return b}
-  function render(){plan.innerHTML="";if(view==="stalls"){const a=secIds("Stalls",STALLS);plan.append(title("STALLS"),secBtn("stalls","Stalls",a),rows("Stalls",STALLS),stage())}if(view==="circle"){const a=secIds("Circle",CIRCLE);plan.append(title("CIRCLE"),secBtn("circle","Circle",a),rows("Circle",CIRCLE),stage())}if(view==="upper"){const a=secIds("Upper Circle",UPPER);plan.append(title("UPPER CIRCLE"),secBtn("upper","Upper Circle",a),rows("Upper Circle",UPPER),stage())}if(view==="boxes"){plan.append(title("BOXES"),secBtn("boxes","Boxes",allBoxes()));const w=document.createElement("div");w.className="boxes-layout";const l=document.createElement("div"),r=document.createElement("div");l.className=r.className="box-side";l.append(makeBox("A","Circle Box"),makeBox("B","Circle Box"),makeBox("C","Circle Box"));r.append(makeBox("U","Circle Box"),makeBox("V","Circle Box"),makeBox("W","Circle Box"),makeBox("D","Platform Box"),makeBox("E","Platform Box"),makeBox("X","Platform Box"),makeBox("Y","Platform Box"),makeBox("F","Choir Box"),makeBox("Z","Choir Box"));w.append(l,r);plan.append(w)}const n=selected.size;status.textContent=n?`${n} seat${n===1?"":"s"} selected.`:"Nothing selected.";summary.textContent=n?`${n} seat${n===1?"":"s"} selected`:"—";actions.classList.toggle("show",!!n);if(!n)noteForm.classList.remove("show")}
-  plan.addEventListener("click",e=>{const s=e.target.closest(".seat");if(s){selected.has(s.dataset.id)?selected.delete(s.dataset.id):selected.add(s.dataset.id);render();return}const r=e.target.closest(".row-select");if(r){toggle(ids(r.dataset.section,r.dataset.row,+r.dataset.a,+r.dataset.b));return}const b=e.target.closest(".box-name");if(b){toggle(boxIds(b.dataset.box,b.dataset.type));return}const sec=e.target.closest(".section-select");if(sec){if(sec.dataset.k==="stalls")toggle(secIds("Stalls",STALLS));if(sec.dataset.k==="circle")toggle(secIds("Circle",CIRCLE));if(sec.dataset.k==="upper")toggle(secIds("Upper Circle",UPPER));if(sec.dataset.k==="boxes")toggle(allBoxes())}});
+  function sectionBlock(name,key,data,cls,reverse=false){const d=document.createElement("section");d.className=`plan-section pdf-section ${cls}`;const displayData=reverse?[...data].reverse():data;d.append(title(name,key,secIds(name,data)),rows(name,displayData));return d}
+  function boxStack(names,type,side){const d=document.createElement("div");d.className=`circle-box-stack ${side}`;names.forEach(n=>d.append(makeBox(n,type)));return d}
+  function choirBlock(){
+    const d=document.createElement("section");d.className="plan-section choir-diagram";
+    const heading=document.createElement("div");heading.className="choir-heading";heading.append(title("CHOIR","choir",secIds("CHOIR",CHOIR)));
+    const layout=document.createElement("div");layout.className="choir-layout";
+    const left=document.createElement("div");left.className="choir-box left";left.append(makeBox("F","Choir Box"));
+    const centre=document.createElement("div");centre.className="choir-centre";centre.append(rows("CHOIR",CHOIR));
+    const right=document.createElement("div");right.className="choir-box right";right.append(makeBox("Z","Choir Box"));
+    layout.append(left,centre,right);
+    d.append(heading,layout);return d;
+  }
+  function platformBlock(){
+    const d=document.createElement("section");d.className="platform-area";
+    const pair=(side,names)=>{const p=document.createElement("div");p.className=`platform-pair ${side}`;names.forEach(n=>{const w=document.createElement("div");w.className="platform-box";w.append(makeBox(n,"Platform Box"));p.append(w)});return p};
+    d.append(pair("left",["E","D"]));
+    const st=document.createElement("div");st.className="plan-stage";st.textContent="STAGE";d.append(st);
+    d.append(pair("right",["X","Y"]));
+    return d;
+  }
+  function render(){
+    plan.innerHTML="";
+    const hall=document.createElement("div");hall.className="hall-plan";
+    const upper=sectionBlock("UPPER CIRCLE","upper",UPPER,"plan-upper",true);hall.append(upper);
+    const audience=document.createElement("section");audience.className="audience-grid";
+    const centre=document.createElement("div");centre.className="audience-centre";
+    const circle=sectionBlock("CIRCLE","circle",CIRCLE,"plan-circle",true);
+    const stalls=sectionBlock("STALLS","stalls",STALLS,"plan-stalls",true);
+    centre.append(circle,stalls);audience.append(boxStack(["A","B","C"],"Circle Box","left"),centre,boxStack(["U","V","W"],"Circle Box","right"));hall.append(audience);
+    hall.append(platformBlock(),choirBlock());
+    plan.append(hall);
+    const n=selected.size;status.textContent=n?`${n} seat${n===1?"":"s"} selected.`:"Nothing selected.";summary.textContent=n?`${n} seat${n===1?"":"s"} selected`:"—";actions.classList.toggle("show",!!n);if(!n)noteForm.classList.remove("show")
+  }
+  plan.addEventListener("click",e=>{const s=e.target.closest(".seat");if(s){selected.has(s.dataset.id)?selected.delete(s.dataset.id):selected.add(s.dataset.id);render();return}const r=e.target.closest(".row-select");if(r){toggle(r.dataset.ids.split(","));return}const b=e.target.closest(".box-name");if(b){toggle(boxIds(b.dataset.box,b.dataset.type));return}const sec=e.target.closest(".section-name");if(sec){if(sec.dataset.k==="stalls")toggle(secIds("STALLS",STALLS));if(sec.dataset.k==="circle")toggle(secIds("CIRCLE",CIRCLE));if(sec.dataset.k==="upper")toggle(secIds("UPPER CIRCLE",UPPER));if(sec.dataset.k==="choir")toggle(secIds("CHOIR",CHOIR));}});
   document.querySelectorAll(".tab").forEach(t=>t.addEventListener("click",()=>{view=t.dataset.view;document.querySelectorAll(".tab").forEach(x=>x.setAttribute("aria-selected",x===t?"true":"false"));render()}));
   document.getElementById("clearSelection").onclick=()=>{selected.clear();render()};
   document.querySelectorAll(".choice").forEach(c=>c.onclick=()=>{actionType=c.dataset.type;document.querySelectorAll(".choice").forEach(x=>x.classList.toggle("active",x===c));noteForm.classList.add("show");if(actionType==="issue"){detailsLabel.textContent="Describe the issue";details.placeholder="Example: damaged seat, spill, loose armrest..."}if(actionType==="cleaning"){detailsLabel.textContent="Cleaning work completed";details.placeholder="Example: seats wiped, vacuumed underneath, spill removed..."}if(actionType==="other"){detailsLabel.textContent="Other / Blank";details.placeholder="Enter a note or leave for future use."}});
   document.getElementById("cancelReport").onclick=()=>noteForm.classList.remove("show");
-  noteForm.addEventListener("submit",async e=>{e.preventDefault();const name=staff.value.trim();if(!name){message.textContent="Please enter staff name.";message.className="message error";staff.focus();return}if(!actionType||!selected.size)return;if(!APPS_SCRIPT_URL.includes("/exec")){message.textContent="Apps Script URL is not configured yet.";message.className="message error";return}const seats=[...selected].map(id=>{const [section,row,seat]=id.split("|");return{id,section,row,seat,label:`${section} ${row}${seat}`}});submit.disabled=true;submit.textContent="Sending…";try{const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({staffName:name,actionType,details:details.value.trim(),timestamp:new Date().toISOString(),seats})});const data=await res.json();if(!data.ok)throw new Error(data.error||"Save failed");seats.forEach(s=>reported.add(s.id));const c=selected.size;selected.clear();details.value="";noteForm.classList.remove("show");render();message.textContent=`Report saved for ${c} seat${c===1?"":"s"}. Seats released for other staff.`;message.className="message ok"}catch(err){message.textContent="Could not save report: "+err.message;message.className="message error"}finally{submit.disabled=false;submit.textContent="Send report"}});
+  noteForm.addEventListener("submit",async e=>{e.preventDefault();const name=staff.value.trim();if(!name){message.textContent="Please enter staff name.";message.className="message error";staff.focus();return}if(!actionType||!selected.size)return;if(!APPS_SCRIPT_URL.includes("/exec")){message.textContent="Apps Script URL is not configured yet.";message.className="message error";return}const seats=[...selected].map(id=>{const [section,row,seat]=id.split("|");const isBox=section.endsWith("Box");return{id,section,row,seat,label:isBox?`${section} ${row} - Seat ${seat}`:`${section} - Row ${row} - Seat ${seat}`}});submit.disabled=true;submit.textContent="Sending…";try{const res=await fetch(APPS_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({staffName:name,actionType,details:details.value.trim(),timestamp:new Date().toISOString(),seats})});const data=await res.json();if(!data.ok)throw new Error(data.error||"Save failed");seats.forEach(s=>reported.add(s.id));const c=selected.size;selected.clear();details.value="";noteForm.classList.remove("show");render();message.textContent=`Report saved for ${c} seat${c===1?"":"s"}. Seats released for other staff.`;message.className="message ok"}catch(err){message.textContent="Could not save report: "+err.message;message.className="message error"}finally{submit.disabled=false;submit.textContent="Send report"}});
   render();
 })();
 </script>
